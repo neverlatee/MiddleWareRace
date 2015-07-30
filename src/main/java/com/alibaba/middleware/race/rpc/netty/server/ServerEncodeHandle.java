@@ -15,19 +15,26 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  */
 public class ServerEncodeHandle extends ChannelInboundHandlerAdapter {
 
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("channelActive");
-        ctx.fireChannelActive();
-    }
+//    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//        System.out.println("channelActive");
+//        ctx.fireChannelActive();
+//    }
+    public Object instance;
+    public ServerEncodeHandle(Object instance){
+        this.instance=instance;
+    };
 	@Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
     		throws Exception {
         System.out.println(" server received msg=="+msg);
         RpcRequest request=(RpcRequest)msg;
         Class clazz=request.getClass();
+        System.out.println(clazz);
         Method method=request.getMethod();
+        System.out.println(method);
         Object[] args=request.getArgs();
-        Object object=method.invoke(clazz,args);
+        System.out.println(args);
+        Object object=method.invoke(instance,args);
         RpcResponse response=new RpcResponse();
         response.setAppResponse(object);
         ctx.writeAndFlush(response);
@@ -43,6 +50,7 @@ public class ServerEncodeHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
+        cause.printStackTrace();
         ctx.close();
     }
 

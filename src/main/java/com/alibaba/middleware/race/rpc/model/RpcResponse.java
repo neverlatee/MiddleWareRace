@@ -33,4 +33,12 @@ public class RpcResponse {
 	    public boolean isError(){
 	        return errorMsg == null ? false:true;
 	    }
+
+	@Override
+	public String toString() {
+		return "RpcResponse{" +
+				"errorMsg='" + errorMsg + '\'' +
+				", appResponse=" + appResponse +
+				'}';
+	}
 }

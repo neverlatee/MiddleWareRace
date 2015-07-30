@@ -7,7 +7,9 @@ import com.alibaba.middleware.race.rpc.api.impl.RpcProviderImpl;
  */
 public class Provider {
     public static void main(String[] args) throws InterruptedException {
+
         RpcProviderImpl provider=new RpcProviderImpl();
+        provider.impl(new HelloServiceImpl());
         provider.publish();
     }
 }

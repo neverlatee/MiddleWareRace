@@ -1,5 +1,6 @@
 package com.alibaba.middleware.race.rpc.api.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.InetAddress;
@@ -16,7 +17,8 @@ import com.alibaba.middleware.race.rpc.netty.client.NettyClient;
  *
  *
  */
-public class RpcConsumerImpl extends RpcConsumer{
+public class RpcConsumerImpl extends RpcConsumer implements Serializable {
+
 	 	private Class<?> interfaceClazz;
 	 	private String provideHost="127.0.0.1";
 	 	private int providePort=8888;
@@ -153,4 +155,13 @@ public class RpcConsumerImpl extends RpcConsumer{
 			return NettyClient.getClientDecodeHandler().getResponse();
 
 	    }
+
+	@Override
+	public String toString() {
+		return "RpcConsumerImpl{" +
+				"interfaceClazz=" + interfaceClazz +
+				", provideHost='" + provideHost + '\'' +
+				", providePort=" + providePort +
+				'}';
+	}
 }

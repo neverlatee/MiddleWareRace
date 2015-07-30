@@ -2,6 +2,7 @@ package com.alibaba.middleware.race.rpc.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import com.alibaba.middleware.race.rpc.context.RpcContext;
 
@@ -38,5 +39,14 @@ public class RpcRequest implements Serializable{
 	public void setRpcContext(RpcContext rpcContext) {
 		this.rpcContext = rpcContext;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "RpcRequest{" +
+				"proxy=" + proxy +
+				", method=" + method +
+				", args=" + Arrays.toString(args) +
+				", rpcContext=" + rpcContext +
+				'}';
+	}
 }

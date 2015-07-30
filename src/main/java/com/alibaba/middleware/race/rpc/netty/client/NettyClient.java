@@ -33,6 +33,7 @@ public class NettyClient {
 
 	private static ClientDecodeHandler clientDecodeHandler;
 	public static void start(String host,int port,final RpcRequest request) throws Exception{
+		System.out.println("client start connect to server");
 		EventLoopGroup group = new NioEventLoopGroup();
 		clientDecodeHandler=new ClientDecodeHandler(request);
 		final ClassResolver resolver=ClassResolvers.softCachingResolver(NettyClient.class.getClassLoader());
@@ -42,6 +43,9 @@ public class NettyClient {
 			 .handler(new ChannelInitializer<SocketChannel>() {
 						@Override
 						protected void initChannel(SocketChannel ch) throws Exception {
+							ch.pipeline().addLast(new ObjectDecoder(1024*1024, ClassResolvers.weakCachingConcurrentResolver(this.getClass()
+									.getClassLoader())));
+							ch.pipeline().addLast(new ObjectEncoder());
 							ch.pipeline().addLast(clientDecodeHandler);
 						}
 			 });
@@ -53,9 +57,11 @@ public class NettyClient {
 
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception {
 		RpcRequest request= new RpcRequest();
 		request.setArgs(new Object[]{"who"});
+
+		NettyClient.start("127.0.0.1",8888,request);
 	}
 	
 }

@@ -33,7 +33,7 @@ public class ClientDecodeHandler extends ChannelInboundHandlerAdapter {
 		        // Send the message to Server
 			 System.out.println("channelActive£¬send request:" + request);
 			 ctx.writeAndFlush(request);
-			 super.channelActive(ctx);
+	//		 super.channelActive(ctx);
 	//		 ctx.fireChannelActive();
 //
 	}
@@ -42,5 +42,11 @@ public class ClientDecodeHandler extends ChannelInboundHandlerAdapter {
 
 		}
 		return response;
+	}
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+			throws Exception {
+		ctx.fireExceptionCaught(cause);
+		ctx.close();
 	}
 }
